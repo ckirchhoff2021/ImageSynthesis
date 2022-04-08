@@ -1,0 +1,31 @@
+type: stylegan
+# image: ai-registry.vivo.xyz/romai_dev/dev-tf2.3-torch1.6:v1.0.0__piby11120041at20210130182426
+# image: ai-registry.vivo.xyz/romai_dev/dev-tf2.3-torch1.6:v1.0.0__piby11145199at20220125175405
+image: ai-registry.vivo.xyz/romai_dev/dev-tf2.3-torch1.6:v1.0.0__piby11145199at20220125185904
+
+filePath: /data/juicefs_hz_cv_v3/11145199/work/styleGAN
+filePathIgnores: [".git"]
+restartPolicy: Never
+
+dataPaths:  
+- /data/juicefs_hz_cv_v2/public_data/
+- /data/juicefs_hz_cv_v3/public_data/
+- /data/juicefs_hz_cv_v3/11145199/
+- /data/juicefs_hz_cv_v2/11145199/
+
+# business: hz-cv
+
+spec:
+  Worker:
+    num: 1
+    nodes:
+      vivo.com/machine-type: V100
+      # vivo.com/gpu-mem: 32G
+    limits:
+      cpu: "8"
+      gpu: "1"
+      memory: "16Gi"
+    requests:
+      cpu: "8"
+      gpu: "1"
+      memory: "16Gi"

@@ -1,0 +1,63 @@
+import os
+import time
+import torch
+import numpy as np
+from torchvision.utils import save_image
+
+import torch
+
+
+class Adder(object):
+    def __init__(self):
+        self.count = 0
+        self.num = float(0)
+
+    def reset(self):
+        self.count = 0
+        self.num = float(0)
+
+    def __call__(self, num):
+        self.count += 1
+        self.num += num
+
+    def average(self):
+        return self.num / self.count
+
+
+class Timer(object):
+    def __init__(self, option='s'):
+        self.tm = 0
+        self.option = option
+        if option == 's':
+            self.devider = 1
+        elif option == 'm':
+            self.devider = 60
+        else:
+            self.devider = 3600
+
+    def tic(self):
+        self.tm = time.time()
+
+    def toc(self):
+        return (time.time() - self.tm) / self.devider
+
+
+def check_lr(optimizer):
+    for i, param_group in enumerate(optimizer.param_groups):
+        lr = param_group['lr']
+    return lr
+
+
+def save_models(models, save_dir, model_name=''):
+    for i, model in enumerate(models):
+        state = {
+            'model': model.state_dict(),
+            'name': model_name
+        }
+        torch.save(state, os.path.join(save_dir, 'model-{}.pkl'.format(i)))
+
+
+def save_result(x1, y1, save_file):
+    z = torch.cat([x1, y1], dim=0)
+    z = torch.clamp(z, 0, 1)
+    save_image(z, save_file, nrow=2)
